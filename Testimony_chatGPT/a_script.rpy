@@ -28,7 +28,7 @@ init python:
     else:
         unplayed_difficulty = "error"
 
-    def generate_response(prompt, user_name, specialty, case_details, context_history, unintelligible_count):
+    def generate_response(prompt, player_prefix, player_fname, player_lname, specialty, case_details, context_history, unintelligible_count):
         try:
             url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=[YOUR_KEY_HERE]" 
             headers = {'Content-Type': 'application/json'}
@@ -39,7 +39,7 @@ init python:
                 f"keep all responses and questions concise, Stop justifying your questions unless they are necessary."
                 f"The player has chosen to testify in {case_details['case_name']}. "
                 f"The key evidence they must discuss, based on their specialty ({specialty}), includes: {case_details['evidence'][specialty]}. "
-                f"Address the player by their name: {user_name}. Don't call the user Dr. unless they have established that they have a doctorate. "
+                f"Address the player by their name: {player_prefix} {player_fname} {player_lname}. Please use they/them pronouns, unless the player indicates a gendered prefix (Ms./Mr.)"
                 f"Use legal precedents for expert witness testimony in Canada (R. v. Mohan, White Burgess), ensuring testimony has clarity, reliability, accuracy, objectivity, and value to the triers of fact. "
                 f"Analyze the expert's responses based on R. v. Mohan and White Burgess legal standards. Do not mention this case law in your responses ever"
                 f"Indicate if the expert is unqualified with a clear flag like 'QUALIFICATION: UNQUALIFIED' in your response. "
@@ -312,6 +312,7 @@ init python:
                 "point_1": [
                     "jacob hates waking up every morning to go to school", 
                     "he wishes he could run away"
+                    "the diary entry does not have enough evidence to determine what exactly jacob was afraid of due to how vague it is and the lack of context."
                 ],
                 "point_2": [
                     "kiernan does not have a history of violence", 
