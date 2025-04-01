@@ -11,7 +11,8 @@ This collection comprises engaging and comprehensive levels that delve into the 
 The games are developed using Ren'Py, a visual novel engine that runs on Python. 
 
 ## About the game
-Information and setup instructions about the game can be found on our [wiki](https://github.com/nina-huangg/Forensics-Pursuit/wiki) 🫧📄
+Information and setup instructions about the game can be found on our [wiki](https://github.com/nina-huangg/Forensics-Pursuit/wiki) 🫧📄 <br/>
+Each folder also has a README that provides an overview of its contents!
 
 ## Updates
 This repository is maintained actively, so if you encounter any bugs/challenges, please raise an issue!
