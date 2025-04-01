@@ -1,4 +1,4 @@
-# Forensics Pursuit
+# Forensics Pursuit 🔎
 
 <p align="center">
    <img src="https://github.com/user-attachments/assets/06af8626-6d68-47a4-a8d0-961c6c68ab33" width="550" height="350">
@@ -13,7 +13,7 @@ The games are developed using Ren'Py, a visual novel engine that runs on Python.
 ## About the game
 Information and setup instructions about the game can be found on our [wiki](https://github.com/nina-huangg/Forensics-Pursuit/wiki) 🫧📄
 
-## Issue
+## Updates
 This repository is maintained actively, so if you encounter any bugs/challenges, please raise an issue!
 
 Like our work?
