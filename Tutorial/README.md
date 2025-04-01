@@ -8,4 +8,4 @@ These tutorials are designed to onboard students and guide them on what to expec
 The tutorials can be accessed on Itch.io! 
 - [Crime Scene](https://forensics-pursuit.itch.io/forensics-pursuit)
 - [Lab Scene](https://forensics-pursuit.itch.io/forensics-pursuit-lab-scene)
-- Testimony Scene -- WIP! 
+- Testimony Scene -- link is WIP! 
