@@ -6,5 +6,5 @@ This folder contains character sprites created by the talented [Janet Fu](https:
 
 These sprites are designed to be incorporated into your game to enhance gameplay. Feel free to include them in whatever way you desire!
 
-## Guide
+### Guide
 Follow this [guide](https://general-growth-d39.notion.site/Adding-Character-Sprites-1a377b5f498280ee9c4ccdef80ee6104) that Janet created on how to incorporate these sprites into your game! 
