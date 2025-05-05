@@ -105,6 +105,8 @@ init python:
                                     if (item1.type == "[insert first inventory item]" or item1.type == "[insert second inventory item]") and (item2.type == "[insert first inventory item]" or item2.type == "[insert second inventory item]"):   
                                         i_combine = True
                                         # ---- INSERT INTERACTIONS HERE ----
+
+                                        # ---- EXAMPLE INTERACTION ----
                                         if item1.type == "[insert first inventory item]":
                                             removeInventoryItem(item1)
                                         else:
@@ -119,13 +121,14 @@ init python:
                                         inventory_SM.redraw(0)
                                         renpy.restart_interaction()
                                         break
+                                        # -------------------------------
                                     else:
                                         #------------------ DEFAULT INTERACTION ------------------
                                         # What happens when a player interacts with the wrong item
                                         item1.x = item1.original_x
                                         item1.y = item1.original_y
                                         item1.zorder = 0
-                                        characterSay(who = "", what = ["Hmm, that doesn't seem to work. Let's try something else. \n\n\n>> press space to continue"])
+                                        characterSay(who = "", what = ["Hmm, that doesn't seem to work. Let's try something else."])
                                         break
                             # ------------------ INVENTORY + ENVIRONMENT ITEM INTERACTIONS ------------------
                             if i_combine == False:
@@ -136,39 +139,31 @@ init python:
                                     for item3 in environment_sprites:
                                         items_overlap = checkItemsOverlap(item1, item3)
                                         if items_overlap == True:
-                                            ie_overlap = True
-                                            
-                                            if item1.type == "evidence_bag" and item3.type == "lid":
+                                            ie_overlap = True    
+
+                                            # ---- EXAMPLE INTERACTION ----
+                                            if item1.type == "lid" and item3.type == "evidence_tray":
                                                 ie_combine = True
+                                                removeInventoryItem(item1)
                                                 removeEnvironmentItem(item3)
-                                                addToInventory(["jar_in_bag"])
-                                                renpy.show_screen("inspectItem", ["jar_in_bag"])
-                                                characterSay(who = "", what = ["Great job! Let's head back and see if we can find anything else. \n\n\n>> press space to continue"])
-                                                inventory_SM.redraw(0)
+                                                # item3.idle_image = Image("Environment Items/lid_on_tray-idle.png")
+                                                # item3.hover_image = Image("Environment Items/lid_on_tray-hover.png")
+                                                toolboxpop_SM.redraw(0)
                                                 environment_SM.redraw(0)
                                                 renpy.restart_interaction()
+                                                renpy.jump("lid_on_tray_label")
                                                 break
-                                            elif item1.type == "evidence_bag" and item3.type == "duct_tape":
-                                                ie_combine = True
-                                                removeEnvironmentItem(item3)
-                                                addToInventory(["tape_in_bag"])
-                                                renpy.show_screen("inspectItem", ["tape_in_bag"])
-                                                characterSay(who = "", what = ["Great job! Let's head back and see if we can find anything else. \n\n\n>> press space to continue"])
-                                                inventory_SM.redraw(0)
-                                                environment_SM.redraw(0)
-                                                renpy.restart_interaction()
-                                                break
+                                            # -------------------------------
                                             else:
                                                 item1.x = item1.original_x
                                                 item1.y = item1.original_y
                                                 item1.zorder = 0
-                                                characterSay(who = "Claire", what = ["Hmm, that doesn't seem to work. Let's try something else. \n\n\n>> press space to continue."])
+                                                characterSay(who = "", what = ["Hmm, that doesn't seem to work. Let's try something else."])
                                                 break
                             if i_combine == False and ie_combine == False:
                                 item1.x = item1.original_x
                                 item1.y = item1.original_y
                                 item1.zorder = 0
-
         if event.type == renpy.pygame_sdl2.MOUSEMOTION:
             mousepos = (x, y)
             if inventory_drag == False:
@@ -199,6 +194,10 @@ init python:
         global toolbox_drag
         global i_overlap
         global ie_overlap
+        global all_pieces
+        if all_pieces == 4:
+            all_pieces = 0  
+        # if event.type == renpy.pygame_sdl2.MOUSEBUTTONDOWN
         if event.type == renpy.pygame_sdl2.MOUSEBUTTONUP:
             if event.button == 1:
                 for item1 in toolbox_sprites:
@@ -207,75 +206,75 @@ init python:
                             toolbox_drag = False
                             i_combine = False
                             ie_combine = False
+                            if item1.type == "fire_extinguisher":
+                                item1.item_image = Image("Toolbox Items/Toolbox-fe_smoke.png")
+                            # ------------------ TOOLBOX ITEM INTERACTIONS (BETWEEN EACH OTHER) ------------------
                             for item2 in toolbox_sprites:
                                 items_overlap = checkItemsOverlap(item1, item2)
                                 if items_overlap == True:
                                     i_overlap = True
-                                    # if I need to use items on stuff, add those interactions here
-                                    # item1 = object being dragged, item2 = object being interacted with from 
-                                    # feel free to combine with nina's drag and drop code
-                                    if (item1.type == "matches" or item1.type == "lantern") and (item2.type == "matches" or item2.type == "lantern"):
+                                    #------------------ ADD CUSTOM INTERACTIONS HERE ------------------
+                                    # More details about this part on the guide!
+                                    # NOTE: item1 = object being dragged, item2 = object being interacted with
+                                    # NOTE: replace the below parameters with your own custom items
+                                    if (item1.type == "tweezers" or item1.type == "lid") and (item2.type == "tweezers" or item2.type == "lid"):   
                                         i_combine = True
-                                        if item1.type == "matches":
-                                            removeInventoryItem(item1)
-                                        else:
-                                            removeInventoryItem(item2)
-                                        lantern_image = Image("Inventory Items/inventory-lantern-lit.png")
-                                        t = Transform(child = lantern_image, zoom = 0.5)
-                                        inventory_sprites[inventory_items.index("lantern")].set_child(t)
-                                        inventory_sprites[inventory_items.index("lantern")].item_image = lantern_image
-                                        inventory_sprites[inventory_items.index("lantern")].state = "lit"
-                                        renpy.show_screen("inspectItem", ["lantern"])
-                                        characterSay(who = "Claire", what = ["The lantern is now lit!"], inspectItem = True)
-                                        inventory_SM.redraw(0)
-                                        renpy.restart_interaction()
+                                        # ---- INSERT INTERACTIONS HERE ----
+
+                                        # ---- EXAMPLE INTERACTION ----
+                                        removeToolboxItem(item1)
+                                        removeToolboxItem(item2)
+                                        addToToolbox(["lid_in_tweezers"])
+                                        enpy.show_screen("inspectItem", ["lid_in_tweezers"])
+                                        characterSay(who = "", what = ["Great job! Now let's hold the lid over the smoke to get some residue."])
+                                        # item1.zorder = 0
                                         break
+                                        # -------------------------------
                                     else:
+                                        #------------------ DEFAULT INTERACTION ------------------
+                                        # What happens when a player interacts with the wrong item
                                         item1.x = item1.original_x
                                         item1.y = item1.original_y
                                         item1.zorder = 0
-                                        characterSay(who = "Claire", what = ["Hmm, that doesn't seem to work. Let's try something else. \n\n\n>> press space to continue"])
+                                        characterSay(who = "", what = ["Hmm, that doesn't seem to work. Let's try something else."])
                                         break
+                            # ------------------ TOOLBOX + ENVIRONMENT ITEM INTERACTIONS ------------------
                             if i_combine == False:
+                                #------------------ ADD CUSTOM INTERACTIONS HERE ------------------
+                                # More details about this part on the guide!
+                                # NOTE: item1 = object being dragged, item2 = object being interacted with
+                                # NOTE: replace the below parameters with your own custom items
                                 for item3 in environment_sprites:
                                     items_overlap = checkItemsOverlap(item1, item3)
                                     if items_overlap == True:
-                                        ie_overlap = True
-                                        if item1.type == "tape" and item3.type == "box":
+                                        ie_overlap = True 
+                                        # ---- EXAMPLE INTERACTION ----
+                                        if item1.type == "gloves_box" and item3.type == "hands":
                                             ie_combine = True
-                                            removeToolboxItem(item1)
+                                            # removeToolboxItem(item1)
                                             removeEnvironmentItem(item3)
-                                            addToToolbox(["secateur", "matches"])
-                                            renpy.show_screen("inspectItem", ["secateur", "matches"])
-                                            characterSay(who = "Claire", what = ["This tool might come in handy. \n\n\n>> press space to continue", "But for what? \n\n\n>> press space to continue"], inspectItem = True)
-                                            toolbox_SM.redraw(0)
+                                            item1.x = item1.original_x
+                                            item1.y = item1.original_y
+                                            item1.zorder = 0
+                                            renpy.show_screen("gloved")
+                                            toolboxpop_SM.redraw(0)
                                             environment_SM.redraw(0)
                                             renpy.restart_interaction()
-                                            break
-                                        elif item1.type == "tape" and item3.type == "door-vines":
-                                            ie_combine = True
-                                            removeToolboxItem(item1)
-                                            removeToolboxItem(item3)
-                                            characterSay(who = "", what = ["Great job!"], jump_to = "setupScene2") # jump to setupScene2 with dialogue first.
-                                            addToToolbox(["tape"])
-                                            toolbox_SM.redraw(0)
-                                            environment_SM.redraw(0)
-                                            renpy.restart_interaction()
-                                            break
+                                            break 
+                                        # -------------------------------                      
                                         else:
                                             item1.x = item1.original_x
                                             item1.y = item1.original_y
                                             item1.zorder = 0
-                                            characterSay(who = "Claire", what = ["Hmm, that doesn't seem to work. Let's try something else. \n\n\n>> press space to continue"])
+                                            characterSay(who = "", what = ["Hmm, that doesn't seem to work. Let's try something else."])
                                             break
-                            if i_combine == False and ie_combine == False:
+                            if i_combine == False and ie_combine == False: 
                                 item1.x = item1.original_x
                                 item1.y = item1.original_y
-                                item1.zorder = 0
-
+                                # item1.zorder = 0
         if event.type == renpy.pygame_sdl2.MOUSEMOTION:
             mousepos = (x, y)
-            if toolbox_drag == False:
+            if toolbox_drag == False: 
                 for item in toolbox_sprites:
                     if item.visible == True:
                         if item.x <= x <= item.x + item.width and item.y <= y <= item.y + item.height:
@@ -285,6 +284,16 @@ init python:
                         else:
                             renpy.hide_screen("toolboxItemMenu")
                             renpy.restart_interaction()
+            else:
+                if "lid_in_tweezers" in toolbox_items:
+                    for item in toolbox_sprites:
+                        if item == toolbox_sprites[toolbox_items.index("lid_in_tweezers")]:
+                            if 850 <= x <= 950 and 780 <= y <= 800:
+                                # characterSay(who = "Claire", what = ["lol"])
+                                renpy.jump("too_close")
+                            elif 850 <= x <= 950 and 750 <= y <= 780:
+                                renpy.jump("perfect")
+                        
 
     """
     This function handles all of the events for the toolbox pop-up's items including wthe following:
@@ -311,98 +320,61 @@ init python:
                             toolboxpop_drag = False
                             i_combine = False
                             ie_combine = False
+                            # ------------------ TOOLBOX POP-UP ITEM INTERACTIONS (BETWEEN EACH OTHER) ------------------
                             for item2 in toolboxpop_sprites:
                                 items_overlap = checkItemsOverlap(item1, item2)
                                 if items_overlap == True:
                                     i_overlap = True
-                                    # if I need to use items on stuff, add those interactions here
-                                    # item1 = object being dragged, item2 = object being interacted with from 
-                                    # feel free to combine with nina's drag and drop code
+                                    #------------------ ADD CUSTOM INTERACTIONS HERE ------------------
+                                    # More details about this part on the guide!
+                                    # NOTE: item1 = object being dragged, item2 = object being interacted with
+                                    # NOTE: replace the below parameters with your own custom items
                                     if (item1.type == "matches" or item1.type == "lantern") and (item2.type == "matches" or item2.type == "lantern"):
                                         i_combine = True
-                                        if item1.type == "matches":
-                                            removeInventoryItem(item1)
-                                        else:
-                                            removeInventoryItem(item2)
-                                        lantern_image = Image("Inventory Items/inventory-lantern-lit.png")
-                                        t = Transform(child = lantern_image, zoom = 0.5)
-                                        inventory_sprites[inventory_items.index("lantern")].set_child(t)
-                                        inventory_sprites[inventory_items.index("lantern")].item_image = lantern_image
-                                        inventory_sprites[inventory_items.index("lantern")].state = "lit"
-                                        renpy.show_screen("inspectItem", ["lantern"])
-                                        characterSay(who = "Claire", what = ["The lantern is now lit!"], inspectItem = True)
-                                        inventory_SM.redraw(0)
-                                        renpy.restart_interaction()
-                                        break
+                                        # ---- INSERT INTERACTIONS HERE ----
+
                                     else:
+                                        #------------------ DEFAULT INTERACTION ------------------
+                                        # What happens when a player interacts with the wrong item
                                         item1.x = item1.original_x
                                         item1.y = item1.original_y
                                         item1.zorder = 0
-                                        characterSay(who = "Claire", what = ["Hmm, that doesn't seem to work. Let's try something else. \n\n\n>> press space to continue"])
+                                        characterSay(who = "Claire", what = ["Hmm, that doesn't seem to work. Let's try something else."])
                                         break
+                            # ------------------ TOOLBOX POP-UP + ENVIRONMENT ITEM INTERACTIONS ------------------
                             if i_combine == False:
-                                    for item3 in environment_sprites:
-                                        items_overlap = checkItemsOverlap(item1, item3)
-                                        if items_overlap == True:
-                                            ie_overlap = True
-                                            if item1.type == "tape" and item3.type == "box":
-                                                ie_combine = True
-                                                removeToolboxPopItem(item1)
-                                                removeEnvironmentItem(item3)
-                                                addToToolbox(["secateur", "matches"])
-                                                renpy.show_screen("inspectItem", ["secateur", "matches"])
-                                                characterSay(who = "Claire", what = ["This tool might come in handy.", "But for what?"], inspectItem = True)
-                                                toolboxpop_SM.redraw(0)
-                                                environment_SM.redraw(0)
-                                                renpy.restart_interaction()
-                                                break
-                                            elif item1.type == "empty_gun" and item3.type == "box":
-                                                ie_combine = True
-                                                removeToolboxPopItem(item1)
-                                                characterSay(who = "", what = ["Hmm, this gun looks like it's missing something. \n\n\n>> press space to continue"], jump_to = "gun_front")
-                                                toolboxpop_SM.redraw(0)
-                                                environment_SM.redraw(0)
-                                                renpy.restart_interaction()
-                                                break
-                                            elif (item1.type == "cartridges" and item3.type == "gun_front") or (item1.type == "cartridges" and item3.type == "box"):
-                                                ie_combine = True
-                                                removeToolboxPopItem(item1)
-                                                addToToolboxPop(["gun_with_cartridges"])
-                                                renpy.show_screen("inspectItem", ["gun_with_cartridges"])
-                                                toolboxpop_SM.redraw(0)
-                                                environment_SM.redraw(0)
-                                                renpy.restart_interaction()
-                                                break
-                                            elif item1.type == "gun_with_cartridges" and item3.type == "box":
-                                                ie_combine = True
-                                                removeToolboxPopItem(item1)
-                                                characterSay(who = "", what = ["Great, we have the cartridges! We might need something else though... \n\n\n>> press space to continue"], jump_to = "gun_side")
-                                                toolboxpop_SM.redraw(0)
-                                                environment_SM.redraw(0)
-                                                renpy.restart_interaction()
-                                                break
-                                            elif (item1.type == "tip" and item3.type == "gun_with_cartridges") or (item1.type == "tip" and item3.type == "box"):
-                                                ie_combine = True
-                                                removeToolboxPopItem(item1)
-                                                removeEnvironmentItem(item3)
-                                                addToToolboxPop(["gun_all"])
-                                                renpy.show_screen("inspectItem", ["gun_all"])
-                                                characterSay(who = "", what = ["Great, the gun is locked and loaded! Now, what should we do with it? \n\n\n>> press space to continue"], jump_to = "impression")
-                                                toolboxpop_SM.redraw(0)
-                                                environment_SM.redraw(0)
-                                                renpy.restart_interaction()
-                                                break
-                                            else:
-                                                item1.x = item1.original_x
-                                                item1.y = item1.original_y
-                                                item1.zorder = 0
-                                                characterSay(who = "", what = ["Hmm, that doesn't seem to work. Let's try something else. \n\n\n>> press space to continue"])
-                                                break
+                                #------------------ ADD CUSTOM INTERACTIONS HERE ------------------
+                                # More details about this part on the guide!
+                                # NOTE: item1 = object being dragged, item2 = object being interacted with
+                                # NOTE: replace the below parameters with your own custom items
+                                for item3 in environment_sprites:
+                                    items_overlap = checkItemsOverlap(item1, item3)
+                                    if items_overlap == True:
+                                        ie_overlap = True
+                                        # ---- EXAMPLE INTERACTION ----
+                                        if item1.type == "tape" and item3.type == "box":
+                                            ie_combine = True
+                                            removeToolboxPopItem(item1)
+                                            removeEnvironmentItem(item3)
+                                            addToToolbox(["secateur", "matches"])
+                                            renpy.show_screen("inspectItem", ["secateur", "matches"])
+                                            characterSay(who = "Claire", what = ["This tool might come in handy.", "But for what?"], inspectItem = True)
+                                            toolboxpop_SM.redraw(0)
+                                            environment_SM.redraw(0)
+                                            renpy.restart_interaction()
+                                            break
+                                        # ------------------------------
+                                        else:
+                                            item1.x = item1.original_x
+                                            item1.y = item1.original_y
+                                            item1.zorder = 0
+                                            characterSay(who = "", what = ["Hmm, that doesn't seem to work. Let's try something else."])
+                                            break
                             if i_combine == False and ie_combine == False:
                                 item1.x = item1.original_x
                                 item1.y = item1.original_y
+                                
                                 item1.zorder = 0
-
         if event.type == renpy.pygame_sdl2.MOUSEMOTION:
             mousepos = (x, y)
             if toolboxpop_drag == False:
@@ -441,7 +413,7 @@ init python:
                     environment_SM.redraw(0)
         # action on click
         elif event.type == renpy.pygame_sdl2.MOUSEBUTTONUP:
-             if event.button == 1:
+            if event.button == 1:
                 for item in environment_sprites:
                     if item.x <= x <= item.x + item.width and item.y <= y <= item.y + item.height:
                         if item.type == "tape":
@@ -449,15 +421,15 @@ init python:
                             # the following action is for adding to inventory
                             addToInventory(["tape"])
                         elif item.type == "lantern":
-                            characterSay(who = "", what = ["Interesting... looks like a mason jar lid. I might want to store this somewhere. \n\n\n>> press space to continue"])
+                            characterSay(who = "", what = ["Interesting... looks like a mason jar lid. I might want to store this somewhere."])
                         elif item.type == "duct_tape":
-                            characterSay(who = "", what = ["Interesting... looks like a piece of duct tape. I might want to store this somewhere. \n\n\n>> press space to continue"])
-                        elif item.type == "gun_front":
-                            removeEnvironmentItem(item)
-                        elif item.type == "gun_with_cartridges":
-                            removeEnvironmentItem(item)
-                        elif item.type == "door-vines":
-                            pass
+                            characterSay(who = "", what = ["Interesting... looks like a piece of duct tape. I might want to store this somewhere."])
+                        elif item.type == "hands":
+                            characterSay(who = "", what = ["We need to put on some protective wear before proceeding with the lab procedure."])
+                        elif item.type == "hands1":
+                            characterSay(who = "", what = ["We need to put on some protective wear before proceeding with the lab procedure."])
+                        elif item.type == "evidence_tray":
+                            characterSay(who = "", what = ["Try putting a piece of evidence here."])
 
     """
     Controls dragging mechanism for evidence box items.
@@ -470,6 +442,7 @@ init python:
         inventory_drag = True
         item_dragged = item.type
         inventory_SM.redraw(0)
+        toolbox_SM.redraw(0)
 
     """
     Controls dragging mechanism for toolbox items.
@@ -481,6 +454,7 @@ init python:
         global item_dragged
         toolbox_drag = True
         item_dragged = item.type
+        inventory_SM.redraw(0)
         toolbox_SM.redraw(0)
 
     """
@@ -542,7 +516,7 @@ init python:
                 item.original_x = item.x
                 item.y = (inventory_first_slot_y + inventory_slot_size[0] * i) + (inventory_slot_padding * i)
                 item.original_y = item.y
-            if item.y < inventory_first_slot_y or item.y > (inventory_first_slot_y + (item.height * 4)) + (inventory_slot_padding * 3):
+            if item.y < inventory_first_slot_y or item.y > (inventory_first_slot_y + (item.height * 5)) + (inventory_slot_padding * 4):
                 setItemVisibility(item = item, visible = False)
             elif item != "": # prevent errors
                 setItemVisibility(item = item, visible = True)
@@ -574,7 +548,7 @@ init python:
                 item.original_x = item.x
                 item.y = (toolbox_first_slot_y + toolbox_slot_size[0] * i) + (toolbox_slot_padding * i)
                 item.original_y = item.y
-            if item.y < toolbox_first_slot_y or item.y > (toolbox_first_slot_y + (item.height * 4)) + (toolbox_slot_padding * 3):
+            if item.y < toolbox_first_slot_y or item.y > (toolbox_first_slot_y + (item.height * 5)) + (toolbox_slot_padding * 4):
                 setItemVisibility(item = item, visible = False)
             elif item != "": # prevent errors
                 setItemVisibility(item = item, visible = True)
@@ -730,7 +704,6 @@ init python:
     """
     def removeEnvironmentItem(item):
         item.destroy()
-        # environment_items_deleted.append(item.type)
         environment_sprites.pop(environment_sprites.index(item))
         environment_items.pop(environment_items.index(item.type))
 
@@ -787,14 +760,16 @@ init python:
                     if inventory_sprites[-1].visible == False:
                         # shift inventory items up
                         item.y -= item.height + inventory_slot_padding
+                        item.original_y = item.y
                         citem = item
                 elif button == "up" and inventory_ub_enabled == True:
                     if inventory_sprites[0].visible == False:
                         reversed_index = (len(inventory_sprites) - 1) - i
                         inventory_sprites[reversed_index].y += item.height + inventory_slot_padding
+                        item.original_y = inventory_sprites[reversed_index].y
                         citem = inventory_sprites[reversed_index]
                 # checks if item was moved beyond first or beyond last item in inventory slots
-                if citem != "" and (citem.y < inventory_first_slot_y or citem.y > (inventory_first_slot_y + (citem.height * 4)) + (inventory_slot_padding * 4)):
+                if citem != "" and (citem.y < inventory_first_slot_y or citem.y > (inventory_first_slot_y + (citem.height * 5)) + (inventory_slot_padding * 5)):
                     setItemVisibility(item = citem, visible = False)
 
                 elif citem != "": # prevent errors
@@ -823,7 +798,7 @@ init python:
         global toolbox_db_enabled
 
         # check if we have more than 5 items in toolbox (5 is max)
-        if len(toolbox_sprites) > 4:
+        if len(toolbox_sprites) > 5:
             citem = "" # current item
 
             # iterate through toolbox items
@@ -834,14 +809,16 @@ init python:
                     if toolbox_sprites[-1].visible == False:
                         # shift toolbox items up
                         item.y -= item.height + toolbox_slot_padding
+                        item.original_y = item.y
                         citem = item
                 elif button == "up" and toolbox_ub_enabled == True:
                     if toolbox_sprites[0].visible == False:
                         reversed_index = (len(toolbox_sprites) - 1) - i
                         toolbox_sprites[reversed_index].y += item.height + toolbox_slot_padding
+                        item.original_y = toolbox_sprites[reversed_index].y
                         citem = toolbox_sprites[reversed_index]
                 # checks if item was moved beyond first or beyond last item in toolbox slots
-                if citem != "" and (citem.y < toolbox_first_slot_y or citem.y > (toolbox_first_slot_y + (citem.height * 4)) + (toolbox_slot_padding * 4)):
+                if citem != "" and (citem.y < toolbox_first_slot_y or citem.y > (toolbox_first_slot_y + (citem.height * 5)) + (toolbox_slot_padding * 4)):
                     setItemVisibility(item = citem, visible = False)
 
                 elif citem != "": # prevent errors
@@ -855,7 +832,7 @@ init python:
                 toolbox_ub_enabled = False
             else:
                 toolbox_ub_enabled = True
-                
+                 
             if citem != "":
                 toolbox_SM.redraw(0)
                 renpy.restart_interaction
@@ -880,11 +857,13 @@ init python:
                     if toolboxpop_sprites[-1].visible == False:
                         # shift toolbox items up
                         item.y -= item.height + toolboxpop_slot_padding
+                        item.original_y = item.y
                         citem = item
                 elif button == "up" and toolboxpop_ub_enabled == True:
                     if toolboxpop_sprites[0].visible == False:
                         reversed_index = (len(toolboxpop_sprites) - 1) - i
                         toolboxpop_sprites[reversed_index].y += item.height + toolboxpop_slot_padding
+                        item.original_y = toolboxpop_sprites[reversed_index].y
                         citem = toolboxpop_sprites[reversed_index]
                 # checks if item was moved beyond first or beyond last item in toolbox slots
                 if citem != "" and (citem.y < toolboxpop_first_slot_y or citem.y > (toolboxpop_first_slot_y + (citem.height * 2)) + (toolboxpop_slot_padding * 1)):
@@ -931,35 +910,52 @@ Sets up inventory screen when player enters.
 """
 screen full_inventory:
     zorder 1
-    image "UI/inv-icon-bg.png" xpos 0.014 ypos -0.03 at half_size
-    imagebutton auto "UI/inventory-icon-%s.png" action If(renpy.get_screen("inventory") == None, true= [Show("inventory"), Hide("toolbox"), Hide("toolboxpop")], false= [Hide("inventory"), Hide("toolboxpop")]) xpos 0.087 ypos 0.02 at half_size
-    imagebutton auto "UI/tool-inventory-icon-%s.png" action If(renpy.get_screen("toolbox") == None, true= [Show("toolbox"), Hide("inventory")], false= [Hide("toolbox"), Hide("toolboxpop")]) xpos 0.037 ypos 0.02 at half_size
+    # image "UI/inv-icon-bg.png" xpos 0.014 ypos 0.03 at half_size
+    imagebutton auto "UI/open-inv-%s.png" action If(renpy.get_screen("toolbox") == None, true= [Show("inv_buttons"), Show("close_inv"), Show("toolbox"), Hide("inventory"), Hide("toolboxpop")], false= [Hide("close_inv"), Hide("inv_buttons"), Hide("toolbox"), Hide("toolboxpop")]) xpos 0.02 ypos 0.36
+
+screen inv_buttons:
+    zorder 2
+    imagebutton auto "UI/inventory-icon-%s.png" action If(renpy.get_screen("inventory") == None, true= [Show("inventory"), Hide("toolbox"), Hide("toolboxpop")], false= [Hide("inventory"), Hide("toolboxpop")]) xpos 0.085 ypos 0
+    imagebutton:
+        auto "UI/tool-inventory-icon-%s.png" 
+        xpos 0.01 ypos 0
+        action If(renpy.get_screen("toolbox") == None, true= [Show("toolbox"), Hide("inventory")], false= [Hide("toolbox"), Hide("toolboxpop")]) 
+
+screen close_inv:
+    zorder 4
+    imagebutton auto "UI/close-inv-%s.png" xpos 0.15 ypos 0.34 action If(renpy.get_screen("toolbox") == None, true= [Hide("close_inv"), Hide("inv_buttons"), Hide("toolbox"), Hide("inventory")], false= [Hide("close_inv"), Hide("inv_buttons"), Hide("toolbox"), Hide("toolboxpop")]) 
+
 
 # evidence:
 screen inventory:
     zorder 3
-    image "UI/inventory-bg.png" xpos 0.02 ypos 0.09 at half_size
-    image "UI/inventory-slots.png" xpos 0.047 ypos 0.25 at half_size
-    imagebutton idle If(inventory_db_enabled == True, true= "UI/inventory-arrow-down-enabled-idle.png", false= "UI/inventory-arrow-down-disabled.png") hover If(inventory_db_enabled == True, true= "UI/inventory-arrow-down-enabled-hover.png", false= "UI/inventory-arrow-down-disabled.png") action Function(inventoryArrows, button = "down") xpos 0.063 ypos 0.89 at half_size
-    imagebutton idle If(inventory_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-idle.png", false= "UI/inventory-arrow-up-disabled.png") hover If(inventory_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-hover.png", false= "UI/inventory-arrow-up-disabled.png") action Function(inventoryArrows, button = "up") xpos 0.063 ypos 0.15 at half_size
+    image "UI/inventory-icon-hover.png" xpos 0.085 ypos 0
+    image "UI/inventory-bg.png" xpos 0 ypos 0.03
+    image "UI/inventory-slots.png" xpos 0.04 ypos 0.13 
+    imagebutton idle If(inventory_db_enabled == True, true= "UI/inventory-arrow-down-enabled-idle.png", false= "UI/inventory-arrow-down-disabled.png") hover If(inventory_db_enabled == True, true= "UI/inventory-arrow-down-enabled-hover.png", false= "UI/inventory-arrow-down-disabled.png") action Function(inventoryArrows, button = "down") xpos 0.035 ypos 0.96
+    imagebutton idle If(inventory_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-idle.png", false= "UI/inventory-arrow-up-disabled.png") hover If(inventory_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-hover.png", false= "UI/inventory-arrow-up-disabled.png") action Function(inventoryArrows, button = "up") xpos 0.035 ypos 0.049
+    # imagebutton auto "UI/close-inv-%s.png" xpos 0.19 ypos 0.43 action If(renpy.get_screen("toolbox") == None, true= [Hide("inv_buttons"), Hide("toolbox"), Hide("inventory")], false= [Hide("inv_buttons"), Hide("toolbox"), Hide("toolboxpop")]) 
     add inventory_SM
 
 # toolbox:
 screen toolbox:
     zorder 3
-    image "UI/tools-bg.png" xpos 0.02 ypos 0.09 at half_size
-    image "UI/inventory-slots.png" xpos 0.047 ypos 0.25 at half_size
-    imagebutton idle If(toolbox_db_enabled == True, true= "UI/inventory-arrow-down-enabled-idle.png", false= "UI/inventory-arrow-down-disabled.png") hover If(toolbox_db_enabled == True, true= "UI/inventory-arrow-down-enabled-hover.png", false= "UI/inventory-arrow-down-disabled.png") action Function(toolboxArrows, button = "down") xpos 0.063 ypos 0.89 at half_size
-    imagebutton idle If(toolbox_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-idle.png", false= "UI/inventory-arrow-up-disabled.png") hover If(toolbox_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-hover.png", false= "UI/inventory-arrow-up-disabled.png") action Function(toolboxArrows, button = "up") xpos 0.063 ypos 0.15 at half_size
+    image "UI/tool-inventory-icon-hover.png" xpos 0.01 ypos 0
+    image "UI/tools-bg.png" xpos 0 ypos 0.03
+    image "UI/inventory-slots.png" xpos 0.04 ypos 0.13
+    imagebutton idle If(toolbox_db_enabled == True, true= "UI/inventory-arrow-down-enabled-idle.png", false= "UI/inventory-arrow-down-disabled.png") hover If(toolbox_db_enabled == True, true= "UI/inventory-arrow-down-enabled-hover.png", false= "UI/inventory-arrow-down-disabled.png") action Function(toolboxArrows, button = "down") xpos 0.035 ypos 0.96 
+    imagebutton idle If(toolbox_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-idle.png", false= "UI/inventory-arrow-up-disabled.png") hover If(toolbox_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-hover.png", false= "UI/inventory-arrow-up-disabled.png") action Function(toolboxArrows, button = "up") xpos 0.035 ypos 0.049
+    # imagebutton auto "UI/close-inv-%s.png" xpos 0.19 ypos 0.43 action If(renpy.get_screen("toolbox") == None, true= [Hide("inv_buttons"), Hide("toolbox"), Hide("inventory")], false= [Hide("inv_buttons"), Hide("toolbox"), Hide("toolboxpop")]) 
     add toolbox_SM
 
 # toolbox pop-up:
 screen toolboxpop:
-    zorder 3
-    image "UI/toolboxpop-bg.png" xpos 0.13 ypos 0.28 at half_size
-    image "UI/toolboxpop-slots.png" xpos 0.1415 ypos 0.41 at half_size
-    imagebutton idle If(toolboxpop_db_enabled == True, true= "UI/inventory-arrow-down-enabled-idle.png", false= "UI/inventory-arrow-down-disabled.png") hover If(toolboxpop_db_enabled == True, true= "UI/inventory-arrow-down-enabled-hover.png", false= "UI/inventory-arrow-down-disabled.png") action Function(toolboxPopArrows, button = "down") xpos 0.157 ypos 0.73 at half_size
-    imagebutton idle If(toolboxpop_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-idle.png", false= "UI/inventory-arrow-up-disabled.png") hover If(toolboxpop_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-hover.png", false= "UI/inventory-arrow-up-disabled.png") action Function(toolboxPopArrows, button = "up") xpos 0.157 ypos 0.32 at half_size
+    zorder 2
+    image "UI/toolboxpop-bg.png" xpos 0.15 ypos 0.28
+    image "UI/toolboxpop-slots.png" xpos 0.194 ypos 0.38
+    imagebutton idle If(toolboxpop_db_enabled == True, true= "UI/inventory-arrow-down-enabled-idle.png", false= "UI/inventory-arrow-down-disabled.png") hover If(toolboxpop_db_enabled == True, true= "UI/inventory-arrow-down-enabled-hover.png", false= "UI/inventory-arrow-down-disabled.png") action Function(toolboxPopArrows, button = "down") xpos 0.185 ypos 0.72
+    imagebutton idle If(toolboxpop_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-idle.png", false= "UI/inventory-arrow-up-disabled.png") hover If(toolboxpop_ub_enabled == True, true= "UI/inventory-arrow-up-enabled-hover.png", false= "UI/inventory-arrow-up-disabled.png") action Function(toolboxPopArrows, button = "up") xpos 0.185 ypos 0.305
+    # imagebutton auto "UI/close-inv-%s.png" xpos 0.32 ypos 0.45 action If(renpy.get_screen("toolbox") == None, true= [Show("toolbox"), Hide("inventory")], false= [Hide("toolbox"), Hide("toolboxpop")]) 
     add toolboxpop_SM
 
 # evidence box item menu
@@ -983,8 +979,8 @@ screen toolboxItemMenu(item):
         xpos int(item.x)
         ypos int(item.y)
         imagebutton auto "UI/view-inventory-item-%s.png" align (0.0, 0.5) at half_size action [Show("inspectItem", items = [item.type]), Hide("toolboxItemMenu")]
-        # imagebutton auto "UI/use-inventory-item-%s.png" align (1.0, 0.5) at half_size action [Function(startDrag2, item = item), Hide("toolboxItemMenu")]
-        imagebutton auto "UI/expand-inventory-item-%s.png" align (1.0, 0.5) at half_size action If(renpy.get_screen("toolboxpop") == None, true= Show("toolboxpop"), false= Hide("toolboxpop")) 
+        imagebutton auto "UI/use-inventory-item-%s.png" align (1.0, 0.5) at half_size action [Function(startDrag2, item = item), Hide("toolboxItemMenu")]
+        imagebutton auto "UI/expand-inventory-item-%s.png" align (1.0, 0.5) at half_size action If(renpy.get_screen("toolboxpop") == None, true= (Show("toolboxpop")), false= Hide("toolboxpop")) 
 
 # toolbox pop-up item menu
 screen toolboxPopItemMenu(item):
@@ -1020,7 +1016,7 @@ screen inspectItem(items):
                 if temp_name.lower() == items[0]:
                     item_name = name
 
-        text "{}".format(item_name) size 30 align (0.5, 0.65) color "#000000"
+        text "{}".format(item_name) size 30 align (0.5, 0.65) color "#FFF"
         if items[0] == "lantern":
             $lantern_state = inventory_sprites[inventory_items.index("lantern")].state
             image "Items Pop Up/{}-{}-pop-up.png".format("lantern", lantern_state) align (0.5, 0.5) at half_size
@@ -1049,7 +1045,7 @@ screen characterSay(who = None, what = None, jump_to = None):
         if what is not None:
             text what id "what" xpos 0.25 ypos 0.4 xanchor 0.0
         else:
-            text dialogue["what"][0] xpos 0.25 ypos 0.4 xanchor 0.0
+            text dialogue["what"][0] xpos 0.3 ypos 0.1 xanchor 0.0
     if what is None:
         key "K_SPACE" action If(len(dialogue["what"]) > 1, true= RemoveFromSet(dialogue["what"], dialogue["what"][0]), false= [Hide("characterSay"), SetVariable("dialogue", {}), If(jump_to is not None, true = Jump("{}".format(jump_to)), false = NullAction())])
     else:
