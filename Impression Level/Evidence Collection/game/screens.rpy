@@ -99,7 +99,7 @@ screen say(who, what):
     style_prefix "say"
 
     if who == "Nina":
-        add "nina_dialogue_box" at Transform(zoom=1.1, xalign=0.5, yalign=0.99)
+        add "nina_dialogue" at Transform(xzoom=0.55, yzoom=0.49, xalign=0.5, yalign=0.9999)
     elif who is None and what:
         add "no_who_dialogue_box" at Transform(xzoom=0.62, yzoom=0.4, xalign=0.5, yalign=0.99)
 
@@ -121,7 +121,7 @@ screen say(who, what):
     ## If there's a side image, display it above the text. Do not display on the
     ## phone variant - there's no room.
     if not renpy.variant("small"):
-        add SideImage() xalign 0.2 yalign 0.88 zoom 0.87
+        add SideImage() xalign 0.2 yalign 0.85 zoom 0.78
 
 
 ## Make the namebox available for styling through the Character object.

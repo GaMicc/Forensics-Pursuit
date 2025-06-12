@@ -3,9 +3,7 @@ This file contains all custom screens used in the game.
 """
 
 screen ui():
-    """This is the case file displayed on the top left corner of the screen when
-    the player is in the corridor.
-    """
+    # This is the case file displayed on the top left corner of the screen when the player is in the corridor.
     zorder 2
 
     hbox:
@@ -20,9 +18,8 @@ screen ui():
 
 # Contents of casefile ---------------------------------------------------------------------------------------
 screen casefile():
-    """This is screen displayed after the player clicks on the case file.
-    It allows the player to choose between the physical evidence and the photos.
-    """
+    # This is screen displayed after the player clicks on the case file.
+    # It allows the player to choose between the physical evidence and the photos.
     zorder 1
     modal True
     add "casefile_inventory.png"
@@ -53,13 +50,12 @@ screen casefile():
     
     
 screen casefile_physical():
-    """This is the screen displayed when the player clicks on the physical evidence.
-    It shows all evidence collected. When the player clicks on a piece of evidence,
-    the description of the evidence is displayed on the bottom of the screen.
+    # This is the screen displayed when the player clicks on the physical evidence.
+    # It shows all evidence collected. When the player clicks on a piece of evidence,
+    # the description of the evidence is displayed on the bottom of the screen.
 
-    NOTE: This screen will not be used in future iterations of the game. This
-    is a placeholder screen. The inventory that Vivian created will be used instead. 
-    """
+    # NOTE: This screen will not be used in future iterations of the game. This
+    # is a placeholder screen. The inventory that Vivian created will be used instead. 
     zorder 0
     modal True
     add "casefile_inventory.png" at Transform(yzoom=1.1)
@@ -111,12 +107,11 @@ screen casefile_physical():
 
 
 screen casefile_photos():
-    """This is the screen displayed when the player clicks on the photos. It shows
-    photos of all evidence collected.
+    # This is the screen displayed when the player clicks on the photos. It shows
+    # photos of all evidence collected.
 
-    NOTE: This screen will not be used in future iterations of the game. This
-    is a placeholder screen. The inventory that Vivian created will be used instead. 
-    """
+    # NOTE: This screen will not be used in future iterations of the game. This
+    # is a placeholder screen. The inventory that Vivian created will be used instead. 
     zorder 1
     modal True
     add "casefile_inventory.png"
@@ -165,8 +160,7 @@ screen casefile_photos():
 
 # Contents of toolbox --------------------------------------------------------------------------------------
 screen toolbox_print():
-    """This is the toolbox used for the fingerprint and the handprint.
-    """
+    # This is the toolbox used for the fingerprint and the handprint.
     zorder 1
     hbox:
         xpos 0.89 ypos 0.084
@@ -225,9 +219,8 @@ screen toolbox_print():
             action [SetDict(tools, "gel lifter", False), SetDict(tools, "packaging", True), Jump("handprint_gel")]
 
 screen toolbox_blood():
-    """This is the toolbox used for the bloody footprint and the splatter.
-    It contains the swab and the hungarian red reagent.
-    """
+    # This is the toolbox used for the bloody footprint and the splatter.
+    # It contains the swab and the hungarian red reagent.
     zorder 1
     hbox:
         xpos 0.13 ypos 0.03
@@ -251,8 +244,7 @@ screen toolbox_blood():
                 action Jump("enhancement")
 
 screen toolbox_presumptive():
-    """This is the toolbox used for the presumptive test.
-    """
+    # This is the toolbox used for the presumptive test.
     zorder 1
     hbox:
         xpos 0.88 ypos 0.02
@@ -284,8 +276,7 @@ screen toolbox_presumptive():
             action Jump("trash")
 
 screen toolbox_packaging():
-    """This is the toolbox used for packaging the evidence.
-    """
+    # This is the toolbox used for packaging the evidence.
     zorder 1
     hbox:
         xpos 0.89 ypos 0.13
@@ -436,8 +427,7 @@ screen tape_to_bag():
 # Backgrounds -------------------------------------------------------------------------------------------
 
 screen front_corridor():
-    """This is the screen displayed when the player is in the corridor.
-    """
+    # This is the screen displayed when the player is in the corridor.
     imagemap:
         if not analyzed["gin"]:
             idle "front corridor"
@@ -470,17 +460,15 @@ screen front_corridor():
             
 
 screen bloody_swab():
-    """This is the screen used to allow the player to add drops of chemicals
-    to the swab during the presumptive test.
-    """
+    # This is the screen used to allow the player to add drops of chemicals
+    # to the swab during the presumptive test.
     imagebutton:
         idle "red swab" at Transform(xpos=0.4, ypos=0.3)
         action Jump("presumptive")
 
 screen dark_overlay_with_mouse():
-    """This is the screen used after pressing the flashlight when analyzing
-    the door.
-    """
+    # This is the screen used after pressing the flashlight when analyzing
+    # the door.
     modal True
 
     default mouse = (0, 0)
