@@ -311,8 +311,8 @@ screen sample_to_tube():
             xpos 0.28 ypos 0.3
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
         drag:
             drag_name "tube"
@@ -320,8 +320,8 @@ screen sample_to_tube():
             xpos 0.59 ypos 0.29
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
 screen gin_to_bag():
     draggroup:
@@ -331,8 +331,8 @@ screen gin_to_bag():
             xpos 0.29 ypos 0.2
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
         drag:
             drag_name "bag"
@@ -340,8 +340,8 @@ screen gin_to_bag():
             xpos 0.54 ypos 0.19
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
 screen tube_to_bag():
     draggroup:
@@ -351,8 +351,8 @@ screen tube_to_bag():
             xpos 0.23 ypos 0.2
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
         drag:
             drag_name "bag"
@@ -360,8 +360,8 @@ screen tube_to_bag():
             xpos 0.54 ypos 0.19
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
 
 screen fingerprint_to_bag():
@@ -372,8 +372,8 @@ screen fingerprint_to_bag():
             xpos 0.25 ypos 0.3
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
         drag:
             drag_name "bag"
@@ -381,8 +381,8 @@ screen fingerprint_to_bag():
             xpos 0.55 ypos 0.2
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
 screen handprint_to_bag():
     draggroup:
@@ -392,8 +392,8 @@ screen handprint_to_bag():
             xpos 0.25 ypos 0.3
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
         drag:
             drag_name "bag"
@@ -401,8 +401,8 @@ screen handprint_to_bag():
             xpos 0.55 ypos 0.2
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
 screen tape_to_bag():
     draggroup:
@@ -412,8 +412,8 @@ screen tape_to_bag():
             xpos 0.25 ypos 0.3
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
         
         drag:
             drag_name "bag"
@@ -421,8 +421,8 @@ screen tape_to_bag():
             xpos 0.55 ypos 0.2
             draggable True
             droppable True
-            dragging item_dragging
-            dragged item_dragged
+            dragging item_dragging_package
+            dragged item_dragged_package
 
 # Backgrounds -------------------------------------------------------------------------------------------
 
@@ -437,17 +437,17 @@ screen front_corridor():
             hover "no gin hover"
 
         # Door
-        hotspot (890, 115, 368, 714) action [ToggleScreen("ui"), SetDict(tools, "uv light", True), SetDict(encountered, "door", True), Jump("door")] mouse "hover"
+        hotspot (890, 115, 368, 714) action [SetDict(tools, "uv light", True), SetDict(encountered, "door", True), Jump("door")] mouse "hover"
 
         # Footprint
-        hotspot (1063, 865, 166, 163) action [ToggleScreen("ui"), SetDict(tools, "swab", True), Jump("footprint")] mouse "hover"
+        hotspot (1063, 865, 166, 163) action [SetDict(tools, "swab", True), Jump("footprint")] mouse "hover"
 
         # Gin
         showif not analyzed["gin"]:
-            hotspot (602, 494, 159, 160) action [ToggleScreen("ui"), Jump("gin")] mouse "hover"
+            hotspot (602, 494, 159, 160) action [Jump("gin")] mouse "hover"
 
         # Splatter
-        hotspot (465, 960, 209, 109) action [ToggleScreen("ui"), SetDict(tools, "swab", True), Jump("splatter")] mouse "hover"
+        hotspot (465, 960, 209, 109) action [SetDict(tools, "swab", True), Jump("splatter")] mouse "hover"
 
         showif encountered["door"]:
             add "marker 4" at Transform(xpos=0.63, ypos=0.74, zoom=0.3)
@@ -481,10 +481,10 @@ screen dark_overlay_with_mouse():
         hover "door flashlight hover"
 
         # Handprint
-        hotspot (601, 368, 197, 208) action [SetDict(tools, "magnetic powder", True), ToggleScreen("dark_overlay_with_mouse"), Jump("handprint")]
+        hotspot (601, 368, 197, 208) action [SetDict(tools, "uv light", False), SetDict(tools, "magnetic powder", True), ToggleScreen("dark_overlay_with_mouse"), Jump("handprint")]
 
         # Fingerprint
-        hotspot (419, 351, 99, 104) action [SetDict(tools, "magnetic powder", True), ToggleScreen("dark_overlay_with_mouse"), Jump("fingerprint")]
+        hotspot (419, 351, 99, 104) action [SetDict(tools, "uv light", False), SetDict(tools, "magnetic powder", True), ToggleScreen("dark_overlay_with_mouse"), Jump("fingerprint")]
 
     # Adding the darkness overlay with the current mouse position
     add "darkness" pos mouse anchor (0.5, 0.5)

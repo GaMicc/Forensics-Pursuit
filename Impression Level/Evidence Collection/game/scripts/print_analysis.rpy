@@ -8,7 +8,8 @@ label door:
     hide screen casefile_physical
     hide screen casefile_photos
     scene door
-    call screen toolbox_print
+    $ addToToolbox(["uv_light", "magnetic_powder", "scalebar", "tape", "backing_card", "gel_lifter", "evidence_bag"])
+    call screen toolbox
 
 label handprint:
     if analyzed["handprint"]:
@@ -18,32 +19,32 @@ label handprint:
         jump corridor
     $ analyzing["handprint"] = True
     scene handprint
-    call screen toolbox_print
+    call screen toolbox
 
 label handprint_dusted:
     $ encountered["handprint"] = True
     scene handprint dusted
     "New photo added to evidence."
-    call screen toolbox_print
+    call screen toolbox
 
 label handprint_gel:
     scene handprint gel
     s normal2 "Let's remove the gel lifter carefully now..."
     scene handprint on gel lifter
     s normal3 "Perfect! Now to package it!"
-    call screen toolbox_print
+    call screen toolbox
 
 label handprint_scalebar:
     scene handprint scalebar
-    call screen toolbox_print
+    call screen toolbox
 
 label handprint_taped:
     scene handprint taped
-    call screen toolbox_print
+    call screen toolbox
 
 label handprint_backing:
     scene handprint backing
-    call screen toolbox_print
+    call screen toolbox
     # TODO: add backing card labelling option
 
 label fingerprint:
@@ -54,17 +55,17 @@ label fingerprint:
         jump corridor
     $ analyzing["fingerprint"] = True
     scene fingerprint
-    call screen toolbox_print
+    call screen toolbox
 
 label fingerprint_dusted:
     $ encountered["fingerprint"] = True
     scene fingerprint dusted
     "New photo added to evidence."
-    call screen toolbox_print
+    call screen toolbox
 
 label fingerprint_scalebar:
     scene fingerprint scalebar
-    call screen toolbox_print
+    call screen toolbox
 
 label gin:
     hide screen casefile_physical
@@ -77,15 +78,16 @@ label gin:
     s normal3 "It could have some useful prints."
     $ analyzing["gin"] = True
     $ tools["bag"] = True
-    call screen toolbox_packaging
+    $ addToToolbox(["evidence_bag", "tube", "tamper_evident_tape"])
+    call screen toolbox
     
 label fingerprint_taped:
     scene fingerprint taped
-    call screen toolbox_print
+    call screen toolbox
 
 label fingerprint_backing:
     scene fingerprint backing
-    call screen toolbox_print
+    call screen toolbox
 
 label packaging:
     scene door dark
@@ -94,7 +96,15 @@ label packaging:
         show backing fingerprint at Transform(xpos=0.3, ypos=0.2, zoom=1.6)
     elif analyzing["handprint"]:
         show backing handprint at Transform(xpos=0.34, ypos=0.2, zoom=1.5)
-    call screen toolbox_packaging
+    
+    python:
+        removal_list = ["uv_light", "magnetic_powder", "scalebar", "tape", "backing_card", "gel_lifter"]
+        for item in removal_list:
+            if item in toolbox_items:
+                removeToolboxItem(toolbox_sprites[toolbox_items.index(item)])
+
+    $ addToToolbox(["tube", "tamper_evident_tape"])
+    call screen toolbox
 
 label packaging_1:
     hide backing fingerprint
@@ -109,7 +119,7 @@ label packaging_1:
     $ tools["bag"] = False
     show evidence bag large at Transform(xpos=0.4, ypos=0.15)
     "Sample successfully placed in bag."
-    call screen toolbox_packaging
+    call screen toolbox
 
 label packaging_2:
     hide evidence bag large
@@ -121,13 +131,23 @@ label packaging_3:
         "The fingerprint has been added to your evidence."
         $ analyzing["fingerprint"] = False
         $ analyzed["fingerprint"] = True
+        $ addToInventory(["fingerprint"])
     elif analyzing["handprint"]:
         "The handprint has been added to your evidence."
         $ analyzing["handprint"] = False
         $ analyzed["handprint"] = True
+        $ addToInventory(["handprint"])
     elif analyzing["gin"]:
         "The gin bottle has been added to your evidence."
         $ analyzing["gin"] = False
         $ analyzed["gin"] = True
+        $ addToInventory(["gin"])
     hide casefile_evidence_idle
+
+    python:
+        removal_list = ["evidence_bag", "tube", "tamper_evident_tape"]
+        for item in removal_list:
+            if item in toolbox_items:
+                removeToolboxItem(toolbox_sprites[toolbox_items.index(item)])
+
     jump corridor

@@ -22,6 +22,10 @@ label footprint:
         $ encountered["footprint"] = True
         "New photo added to evidence."
 
+    if "swab_pack" not in toolbox_items and "hungarian_red" not in toolbox_items:
+        $ addToToolbox(["swab_pack", "hungarian_red"])
+
+    call screen toolbox
     call screen toolbox_blood
 
 label splatter:
@@ -40,6 +44,9 @@ label splatter:
         "New photo added to evidence."
 
     $ analyzing["splatter"] = True
+
+    $ addToToolbox(["swab_pack"])
+    call screen toolbox
     call screen toolbox_blood
 
 label footprint_swab:
@@ -93,7 +100,13 @@ label sample:
         "Run a presumptive test":
             hide red swab
             show screen bloody_swab
-            call screen toolbox_presumptive
+            python: 
+                removal_list = ["swab_pack", "hungarian_red"]
+                for item in removal_list:
+                    if item in toolbox_items:
+                        removeToolboxItem(toolbox_sprites[toolbox_items.index(item)])
+                addToToolbox(["ethanol", "reagent", "hydrogen_peroxide"])
+            call screen toolbox
 
 label trash:
     $ default_mouse = "default"
@@ -111,7 +124,7 @@ label trash:
                 jump splatter
         "No":
             show screen bloody_swab
-            call screen toolbox_presumptive
+            call screen toolbox
 
 label presumptive:
     if default_mouse == "ethanol":
@@ -133,6 +146,13 @@ label presumptive:
         hide screen bloody_swab
         hide red swab
         $ player_kastle_meyer_order = []
+        
+        python:
+            removal_list = ["ethanol", "reagent", "hydrogen_peroxide"]
+            for item in removal_list:
+                if item in toolbox_items:
+                    removeToolboxItem(toolbox_sprites[toolbox_items.index(item)])
+
         hide screen toolbox_presumptive
         if analyzing["footprint"]:
             jump footprint
@@ -146,6 +166,13 @@ label presumptive:
         show pink swab at Transform(xpos=0.4, ypos=0.3)
         "The results of this test show that this substance is indeed blood."
         $ player_kastle_meyer_order = []
+
+        python:
+            removal_list = ["ethanol", "reagent", "hydrogen_peroxide"]
+            for item in removal_list:
+                if item in toolbox_items:
+                    removeToolboxItem(toolbox_sprites[toolbox_items.index(item)])
+
         if analyzing["footprint"]:
             $ analyzed["footprint presumptive"] = True
             jump footprint
@@ -154,7 +181,7 @@ label presumptive:
             jump splatter
     else:
         show screen bloody_swab
-        call screen toolbox_presumptive
+        call screen toolbox
 
 label enhancement:
     $ encountered["footprint enhanced"] = True
@@ -166,33 +193,46 @@ label enhancement:
 
 # Splatter packaging
 label splatter_alt:
+    python:
+        removal_list = ["swab_pack", "hungarian_red"]
+        for item in removal_list:
+            if item in toolbox_items:
+                removeToolboxItem(toolbox_sprites[toolbox_items.index(item)])
+        
+        addToToolbox(["evidence_bag", "tube", "tamper_evident_tape"])
     if analyzing["splatter"]:
         scene splatter dark
     else:
         scene footprint dark
     show red swab at Transform(xpos=0.4, ypos=0.3)
     $ tools["tube"] = True
-    call screen toolbox_packaging
+    call screen toolbox
 
 label splatter_packaging_0:
     hide red swab
     call screen sample_to_tube
     show sample test tube at Transform(xpos=0.4, ypos=0.2)
     "Sample successfully placed in tube."
-    call screen toolbox_packaging
+    call screen toolbox
 
 label splatter_packaging_1:
     hide sample test tube
     call screen tube_to_bag
     show evidence bag large at Transform(xpos=0.4, ypos=0.15)
     "Sample successfully placed in bag."
-    call screen toolbox_packaging
+    call screen toolbox
 
 label splatter_packaging_2:
     hide evidence bag large
     call screen tape_to_bag
 
 label splatter_packaging_3:
+    python:
+        removal_list = ["evidence_bag", "tube", "tamper_evident_tape"]
+        for item in removal_list:
+            if item in toolbox_items:
+                removeToolboxItem(toolbox_sprites[toolbox_items.index(item)])
+
     show casefile_evidence_idle at Transform(xpos=0.3, ypos=0.24)
     if analyzing["footprint"]:
         "The footprint sample has been added to your evidence."
@@ -204,5 +244,6 @@ label splatter_packaging_3:
         $ analyzing["splatter"] = False
         $ analyzed["splatter"] = True
         $ analyzed["splatter packaged"] = True
+        $ addToInventory(["splatter"])
         hide casefile_evidence_idle
         jump splatter

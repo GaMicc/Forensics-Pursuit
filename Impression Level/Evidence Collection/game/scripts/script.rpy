@@ -94,14 +94,14 @@ init python:
     # Used to display the evidence description in the casefile
     evidence_desc = ""
 
-    def item_dragging(drags):
+    def item_dragging_package(drags):
         """Used to set the mouse cursor to the hand_grab cursor when dragging an item.
         """
         global default_mouse
         default_mouse = "hand_grab"
         return
 
-    def item_dragged(drags, drop):
+    def item_dragged_package(drags, drop):
         """Used to set the mouse cursor to the hand_grab cursor when grabbing an item.
         """
         global default_mouse
@@ -165,7 +165,8 @@ label start:
     s "Fair warning, there’s quite a bit of blood on this scene. I trust you know the drill by now."
     show nina normal2
     s "Remember, time is of the essence. We need to gather all the evidence we can before it gets contaminated or lost."
-    s "You can check your collected evidence at anytime through the casefile on the top left corner"
+    s "You can check your toolbox and the evidence you've collected through the button that will appear on the left side of your screen once you begin collecting evidence."
+    s "For now, there won't be anything inside, but once you start collecting evidence, I'll provide you with the tools you need."
     show nina normal3
     s "Good luck, Officer. We're counting on you to help us solve this case."
     jump corridor  
@@ -173,16 +174,78 @@ label start:
 label corridor:
     $ default_mouse = "magnifying"
 
+    # REQUIRED FOR INVENTORY:
+    $config.rollback_enabled = False # disables rollback
+    $quick_menu = False # removes quick menu (at bottom of screen) - might put this back since inventory bar moved to right side
+    
+    # environment:
+    $environment_SM = SpriteManager(event = environmentEvents) # sprite manager that manages environment items; triggers function environmentEvents() when event happens with sprites (e.g. button click)
+    $environment_sprites = [] # holds all environment sprite objects
+    $environment_items = [] # holds environment items
+    $environment_item_names = [] # holds environment item names
+    
+    # inventory
+    $inventory_SM = SpriteManager(update = inventoryUpdate, event = inventoryEvents) # sprite manager that manages evidence items; triggers function inventoryUpdate 
+    $inventory_sprites = [] # holds all evidence sprite objects
+    $inventory_items = [] # holds evidence items
+    $inventory_item_names = ["Tape on acetate", "Tapeglo in bag", "Tape photo", "Duct tape tapeglo", "Distilled water", "Tape in tweezers", "Duct tape", "Tapeglo", 
+    "Fingerprint on card", "Backing card","Scalebar", "Lifting tape", "Jar photo", "Lid in tweezers", "Camel brush", "Lid with soot", "Lid", "Camphor smoke", "Lighter", 
+    "Tweezers", "Gloves box", "Evidence bag", "Jar in bag", "Tape in bag", "Pvs in bag"] # holds names for inspect pop-up text 
+    $inventory_db_enabled = False # determines whether up arrow on evidence hotbar is enabled or not
+    $inventory_ub_enabled = False # determines whether down arrow on evidence hotbar is enabled or not
+    $inventory_slot_size = (int(215 / 2), int(196 / 2)) # sets slot size for evidence bar
+    $inventory_slot_padding = 120 / 2 # sets padding size between evidence slots
+    $inventory_first_slot_x = 110 # sets x coordinate for first evidence slot
+    $inventory_first_slot_y = 175 # sets y coordinate for first evidence slot
+    $inventory_drag = False # by default, item isn't draggable
+
+    # toolbox:
+    $toolbox_SM = SpriteManager(update = toolboxUpdate, event = toolboxEvents) # sprite manager that manages toolbox items; triggers function toolboxUpdate 
+    $toolbox_sprites = [] # holds all toolbox sprite objects
+    $toolbox_items = [] # holds toolbox items
+    # $toolbox_item_names = ["Tape", "Ziploc bag", "Jar in bag", "Tape in bag", "Gun all", "Empty gun", "Cartridges", "Gun with cartridges", "Tip", "Pvs in bag"] # holds names for inspect pop-up text 
+    $toolbox_db_enabled = False # determines whether up arrow on toolbox hotbar is enabled or not
+    $toolbox_ub_enabled = False # determines whether down arrow on toolbox hotbar is enabled or not
+    # $toolbox_slot_size = (int(215 / 2), int(196 / 2)) # sets slot size for toolbox bar
+    $toolbox_slot_size = (100, 100)
+    # $toolbox_slot_padding = 125 / 2 # sets padding size between toolbox slots
+    $toolbox_slot_padding = 69
+    $toolbox_first_slot_x = 110 # sets x coordinate for first toolbox slot
+    $toolbox_first_slot_y = 175 # sets y coordinate for first toolbox slot
+    $toolbox_drag = False # by default, item isn't draggable
+
+    # toolbox popup:
+    $toolboxpop_SM = SpriteManager(update = toolboxPopUpdate, event = toolboxPopupEvents) # sprite manager that manages toolbox pop-up items; triggers function toolboxPopUpdate
+    $toolboxpop_sprites = [] # holds all toolbox pop-up sprite objects
+    $toolboxpop_items = [] # holds toolbox pop-up items
+    # $toolboxpop_item_names = ["Tape", "Ziploc bag", "Jar in bag", "Tape in bag", "Gun all", "Empty gun", "Cartridges", "Gun with cartridges", "Tip", "Pvs in bag"] # holds names for inspect pop-up text 
+    $toolboxpop_db_enabled = False # determines whether up arrow on toolbox pop-up hotbar is enabled or not
+    $toolboxpop_ub_enabled = False # determines whether down arrow on toolbox pop-up hotbar is enabled or not
+    $toolboxpop_slot_size = (100, 100) # sets slot size for toolbox pop-up bar
+    $toolboxpop_slot_padding = 69 # sets padding size between toolbox pop-up slots
+    $toolboxpop_first_slot_x = 406 # sets x coordinate for first toolbox pop-up slot
+    $toolboxpop_first_slot_y = 445 # sets y coordinate for first toolbox pop-up slot
+    $toolboxpop_drag = False # by default, item isn't draggable
+
+    $current_scene = "scene1" # keeps track of current scene
+    
+    $dialogue = {} # set that holds name of character saying dialogue and dialogue message
+    $item_dragged = "" # keeps track of current item being dragged
+    $mousepos = (0.0, 0.0) # keeps track of current mouse position
+    $i_overlap = False # checks if 2 inventory items are overlapping/combined
+    $ie_overlap = False # checks if an inventory item is overlapping with an environment item
+
+    $all_pieces = 0
+
     # This changes the background image depending on whether or not the player has collected the gin bottle
     if analyzed["gin"]:
         scene no gin
     else:
         scene front corridor
-    show screen ui
 
     # This checks if the player has collected all the evidence
     if analyzed["fingerprint"] and analyzed["handprint"] and analyzed["splatter"] and analyzed["footprint"] and analyzed["gin"]:
-        hide screen ui
+        $ hide_all_inventory()
         show nina normal3
         s "Well done. It looks like you've processed quite a lot of evidence!"
         show nina normal1
@@ -193,5 +256,5 @@ label corridor:
     call screen front_corridor
 
 
-
-    
+transform half_size:
+    zoom 0.5    
