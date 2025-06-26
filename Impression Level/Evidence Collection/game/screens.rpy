@@ -116,8 +116,6 @@ screen say(who, what):
                 ypos 0.29
                 xsize 930
 
-
-
     ## If there's a side image, display it above the text. Do not display on the
     ## phone variant - there's no room.
     if not renpy.variant("small"):

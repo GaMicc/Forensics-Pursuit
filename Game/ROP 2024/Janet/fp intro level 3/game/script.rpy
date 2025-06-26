@@ -530,7 +530,7 @@ screen cold_print_collection:
         yanchor 0.5
         xpos 0.08
         ypos 0.6
-        idle "bags.png"
+        idle "bags.png" # evidence_bag
         hover "bags_hover.png"
         action Jump("toggle_bag_cp")
     imagebutton:
@@ -538,7 +538,7 @@ screen cold_print_collection:
         yanchor 0.5
         xpos 0.08
         ypos 0.8
-        idle "evidence_tape.png"
+        idle "evidence_tape.png" # tamper_evident_tape
         hover "evidence_tape_hover.png"
         action Jump("toggle_tape_cp")
     imagebutton:
