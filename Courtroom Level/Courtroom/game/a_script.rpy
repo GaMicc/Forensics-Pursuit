@@ -38,7 +38,7 @@
             url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyC7taQIoVpL6C3W98Kmr4mxfDxzVeeKl2Q"
             headers = {'Content-Type': 'application/json'}
 
-            # TODO: Replace the case description with your case details (line 47)
+            # TODO: Provide the AI with the details of your case, similar to the above point, but more concisely since it will be used in the AI's instructions. You will need to do this around line 47.
             system_context = (
                 f"You are Lex Machina, an AI trial lawyer responsible for examining expert witnesses in a mock courtroom. Always speak like a real lawyer addressing a judge."
                 f"{difficulty_instructions}"

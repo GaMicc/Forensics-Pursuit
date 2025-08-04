@@ -83,6 +83,11 @@ label start:
 
     show steve normal2
     s "Welcome to the courtroom. My name is Steve, and I'll be guiding you through your preparation before you deliver expert testimony!"
+
+    # TODO: Make Steve explain the details of your case! Optionally, you can make a minigame where the player has to summarize the details of the case themselves (great learning opportunity, but given the August 8 time constraint, not necessary)
+
+    s "Make sure to edit the code so I can explain the details of your specific case to the player!"
+
     s "Would you like me to go through the tutorial? Or should we get straight to selecting your preferences?"
     hide steve normal2
 
@@ -143,10 +148,8 @@ label tutorial_lex_diff:
     scene bg spec
     show steve happy
     show screen inventory_button onlayer ui
-    # TODO: Add arrow 
     $ enable_evidence(get_specialty(persistent.specialty))
     s "Great choice! On the top left corner, you'll see the evidence button. Click this button if you want to refresh your memory about the aspects of the case you are testifying for!"
-    # TODO: Open the inventory to show them what the info button even looks like + arrow 
     s "If you want to read the item description, click the info button on the item."
     hide screen darken_background
     s "Now, there's just one more thing before you step into court."
