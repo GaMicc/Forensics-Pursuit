@@ -1,0 +1,51 @@
+[
+    {
+        "specialty": "psychology",
+        "evidence": [
+            {
+                "name": "Jacob's Diary Entry",
+                "image": "evidence_bag",
+                "description": "One of Jacob's diary entries was recovered, in which he claims that he hates having to wake up every morning to go to school, and he wishes he could run away. Although there is no evidence that this is related to his death, the entry raises concerns about Jacob's feelings or fears of people around him.",
+                "truth_base": [
+                    "jacob hates waking up every morning to go to school",
+                    "he wishes he could run away",
+                    "the diary entry does not have enough evidence to determine what exactly jacob was afraid of due to how vague it is and the lack of context."
+                ]
+            },
+            {
+                "name": "Kiernan's Psychological Evaluation",
+                "image": "case_b_psychology_2",
+                "description": "Kiernan does not have any history of violence or violence-inducing disorders in his medical records. The only mental health diagnosis he has is ADHD.",
+                "truth_base": [
+                    "kiernan does not have a history of violence",
+                    "adhd diagnosis only, which does not normally encourage violence"
+                ]
+            }
+        ]
+    },
+    {
+        "specialty": "identification",
+        "evidence": [
+            {
+                "name": "Jacob's Shoe",
+                "image": "case_b_identification_1",
+                "description": "One of Jacob's shoes, a men's size 6 sneaker, was found at his school. This means Jacob was at school and likely got taken from there to the park either before or after death.",
+                "truth_base": [
+                    "men's size 6 sneaker",
+                    "one was found at school, meaning jacob must have been at school at some point"
+                ]
+            },
+            {
+                "name": "3D Shoe Impression",
+                "image": "case_b_identification_2",
+                "description": "There were many footprints in the mud near the bank of the lake. One of the partial 3D impressions recovered seems to be Jacob's, but the others are unidentifiable.",
+                "truth_base": [
+                    "found in mud near the bank of the lake",
+                    "partial 3D impressions",
+                    "jacob's was the only shoe print that was identified",
+                    "the rest were also partials but unidentifiable"
+                ]
+            }
+        ]
+    }
+]
