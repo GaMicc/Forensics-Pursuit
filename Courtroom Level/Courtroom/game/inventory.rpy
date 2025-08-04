@@ -1036,18 +1036,33 @@ screen inspectItem(items):
         action If(len(items) > 1, true = RemoveFromSet(items, items[0]), false= [Hide("inspectItem"), If(len(dialogue) > 0, true= Show("characterSay"), false= NullAction())])
         image "menu-bg_1" align (0.5, 0.15) at Transform(zoom=0.65)
 
+        # python:
+        #     global inventory_item_names, inventory_item_images
+        #     item_name = ""
+        #     item_desc = ""
+
+        #     for name in inventory_item_names:
+        #         temp_name = name.replace(" ", "-")
+        #         tempname = name.replace(" ", "")
+        #         if temp_name.lower() == items[0]:
+        #             item_name = og_name
+
+        #     ev_by_image = get_evidence(item_name)
+        #     item_name = ev_by_image.name
+        #     item_desc = ev_by_image.description if ev_by_image else "No description available."
+
+        
         python:
-            global inventory_item_names, inventory_item_images
+            global inventory_item_images
             item_name = ""
             item_desc = ""
-            for name in inventory_item_names:
-                og_name = name
+            for name in inventory_item_images:
                 temp_name = name.replace(" ", "-")
                 tempname = name.replace(" ", "")
                 if temp_name.lower() == items[0]:
                     item_name = name
 
-            ev_by_image = get_evidence(og_name)
+            ev_by_image = get_evidence_by_image(item_name)
             item_name = ev_by_image.name
             item_desc = ev_by_image.description if ev_by_image else "No description available."
 

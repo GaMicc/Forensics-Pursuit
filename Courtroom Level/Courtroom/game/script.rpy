@@ -86,8 +86,15 @@ label start:
 
     # TODO: Make Steve explain the details of your case! Optionally, you can make a minigame where the player has to summarize the details of the case themselves (great learning opportunity, but given the August 8 time constraint, not necessary)
 
-    s "Make sure to edit the code so I can explain the details of your specific case to the player!"
+    s "Let's reflect on the case so far."
+    s "Ana Konzaki was found deceased in her home during a party. Forensic findings indicate that she sustained blunt force injuries."
+    s "The accused, a drug dealer named Edward Bartlett, was present at the scene and had been involved in an altercation with Ana's partner, Ezra Verhoesen."
+    s "Evidence suggests that Bartlett arrived under the mistaken impression that Ezra and Ana had contacted him for his services and demanded compensation when asked to leave."
+    s "A physical confrontation ensued, during which Ezra was rendered unconscious."
+    s "It is estimated that Ana passed away sometime after Ezra lost consciousness."
+    s "Partygoers, unaware of the events that had taken place, contacted emergency sercices as soon as they realized Ana was not breathing."
 
+    s "Now that you are familiar with the case, let's get you ready to testify as an expert witness!"
     s "Would you like me to go through the tutorial? Or should we get straight to selecting your preferences?"
     hide steve normal2
 

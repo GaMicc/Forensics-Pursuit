@@ -3,6 +3,7 @@ default past_intro = False
 default active_modal = None  # "inventory", "cases", or None
 define config.layers = ['master', 'transient', 'screens', 'overlay', 'ontop', 'ui']
 
+
 init python:
     def toggle_modal(target):
         global active_modal
@@ -28,6 +29,7 @@ init python:
                 renpy.show("bg spec", layer="ontop")
             renpy.show_screen(target, _layer="ui")
 
+
 screen custom_overlay():
     zorder 100
     add "bg interview"
@@ -52,22 +54,21 @@ screen inventory_button:
             action [Hide("inspectItem", _layer="ui"), Function(toggle_modal, "case_description")]
 
 
+# TODO: Update this case description to match yours. This is what will show when the player clicks the "Cases" button on the top-left.
 screen case_description:
     add Solid("#000000a3")
     zorder 3
     modal True
     image "menu-bg_1" align (0.5, 0.15) at Transform(zoom=0.65)
-    if persistent.case_choice == "Case A":
-        $ item_name = "Case A"
-        $ item_desc = "On the night of March 15th, Ana Konzaki was found dead at a house party hosted by her and her boyfriend, Ezra Verhoesen. The party was a casual gathering with alcohol and marijuana present, but no hard drugs. Witnesses report that a violent altercation broke out between Ezra and an unknown individual, resulting in both men sustaining injuries.\n\nAna was later discovered unconscious with a fatal head wound, likely blunt force trauma. One witness claims to have called a drug dealer, Edward Bartlett, on the night of the party. Edward is also the accused on trial, as some witnesses identified him as the individual who attacked Ezra in a lineup."
-        $ case_image = "CaseA_File.png"
-    else:
-        $ item_name = "Case B"
-        $ item_desc = "An unknown body was discovered floating in a lake in a public park by a passer-by. The victim was later identified by family as 13 year old Jacob DeSouza, who had been missing for 4 months. The cause of death appears to be strangulation, and not drowning. The accused is his adoptive father, Kiernan DeSouza.\n\nKiernan had been reported absent from work and was not at home around the time of Jacob's death. Furthermore, Kiernan's car was discovered near the lake where the body was found. The investigation has been complicated by the lack of direct witnesses and evidence of forced entry into the home."
-        $ case_image = "CaseB_File.png"
+
+    $ item_name = "Case A"
+    $ item_desc = "On the night of March 15th, Ana Konzaki was found dead at a house party hosted by her and her boyfriend, Ezra Verhoesen. The party was a casual gathering with alcohol and marijuana present, but no hard drugs. Witnesses report that a violent altercation broke out between Ezra and an unknown individual, resulting in both men sustaining injuries.\n\nAna was later discovered unconscious with a fatal head wound, likely blunt force trauma. One witness claims to have called a drug dealer, Edward Bartlett, on the night of the party. Edward is also the accused on trial, as some witnesses identified him as the individual who attacked Ezra in a lineup."
+    $ case_image = "CaseA_File.png"
+
     text "{}".format(item_name) size 30 align (0.35, 0.62) color "#000000"
     text "{}".format(item_desc) size 25 xmaximum 500 align (0.63, 0.35) color "#000000"
     image "[case_image]" align (0.3, 0.4) at Transform(zoom=2)
+
 
 screen reminder:
     hbox:
@@ -110,6 +111,7 @@ screen prefix_dropdown():
             for option in ["Mr.", "Ms.", "Mrs.", "Mx.", "Dr."]:
                 textbutton option:
                     action [SetVariable("player_prefix", option), Hide("prefix_dropdown")]
+
 
 screen nameyourself():
     default p_first_name_input = VariableInputValue("player_fname", default=False)
@@ -167,67 +169,6 @@ screen nameyourself():
             action Jump("lex_intro2")
             sensitive (player_fname.strip() and player_lname.strip() and player_prefix.strip())
 
-screen case_a_screen:
-    add "frame" at Transform(zoom=0.85, xalign=0.5, yalign=0.3)
-    frame:
-        xpadding 40
-        ypadding 20
-        xalign 0.5
-        yalign 0.2
-        ysize 300
-        xsize 1010
-        background None
-        text "On the night of March 15th, Ana Konzaki was found dead at a house party hosted by her and her boyfriend, Ezra Verhoesen. The party was a casual gathering with alcohol and marijuana present, but no hard drugs. Witnesses report that a violent altercation broke out between Ezra and an unknown individual, resulting in both men sustaining injuries.\n\nAna was later discovered unconscious with a fatal head wound. One witness claims to have called a drug dealer, Edward Bartlett, on the night of the party. Edward is also the accused on trial, as some witnesses identified him as the individual who attacked Ezra in a lineup."
-  
-    hbox:
-        xalign 0.48
-        yalign 0.75
-        spacing 100
-
-        button:
-            # background "#4C4C4C"
-            # hover_background "#363737"
-            style "selection_button"
-            action [Jump("case_selection_menu"), SetVariable("persistent.case_choice", None)]
-            text "Return to Case Selection" style "selection_button_text"
-
-        button:
-            # background "#4C4C4C"
-            # hover_background "#363737"
-            style "selection_button"
-            action [SetVariable("persistent.case_choice", "Case A"), If(tutorial_skipped or switch_cases, Jump("specialty_menu"), Jump("tutorial_specialty"))]
-            text "Choose Case A" style "selection_button_text"
-
-screen case_b_screen:
-    add "frame" at Transform(zoom=0.85, xalign=0.5, yalign=0.3)
-    frame:
-        xpadding 40
-        ypadding 20
-        xalign 0.5
-        yalign 0.2
-        ysize 300
-        xsize 1000
-        background None
-        text "An unknown body was discovered floating in a lake in a public park by a passer-by. The victim was later identified by family as 13 year old Jacob DeSouza. The cause of death appears to be strangulation, and not drowning. The accused is his adoptive father, Kiernan DeSouza.\n\nKiernan had been reported absent from work and was not at home around the time of Jacob's death. Furthermore, Kiernan's car was discovered near the lake where the body was found. The investigation has been complicated by the lack of direct witnesses and evidence of forced entry into the home."
-
-    hbox:
-        xalign 0.48
-        yalign 0.75
-        spacing 100
-
-        button:
-            # background "#4C4C4C"
-            # hover_background "#363737"
-            style "selection_button"
-            action [Jump("case_selection_menu"), SetVariable("persistent.case_choice", None)]
-            text "Return to Case Selection" style "selection_button_text"
-
-        button:
-            # background "#4C4C4C"
-            # hover_background "#363737"
-            style "selection_button"
-            action [SetVariable("persistent.case_choice", "Case B"), If(tutorial_skipped or switch_cases, Jump("specialty_menu"), Jump("tutorial_specialty"))]
-            text "Choose Case B" style "selection_button_text"
 
 screen return_to_case_selection():
     hbox:
@@ -241,6 +182,8 @@ screen return_to_case_selection():
             text "Return to Case Selection" style "selection_button_text"
             action [SetVariable("switch_cases", True), Jump("case_selection_menu")]
 
+
+# TODO: Update the title of the case to match yours (line 215).
 screen specialty_exploration_screen(specialty):    
     # Find the matching specialty data from JSON
     python:
@@ -273,7 +216,7 @@ screen specialty_exploration_screen(specialty):
         xmaximum 1200
         spacing 20
         
-        text "Case B: The Park Incident\nSpecialty: [specialty.capitalize()]":
+        text "The Death of Ana Konzaki\nSpecialty: [specialty.capitalize()]":
             size 30
             bold True
         
@@ -313,6 +256,7 @@ screen specialty_exploration_screen(specialty):
             style "selection_button"
             action [SetVariable("persistent.specialty", specialty), If(tutorial_skipped == False, Jump("tutorial_lex_diff"), Jump("difficulty_selection"))]
             text "Choose this Specialty" style "selection_button_text"
+
 
 screen evaluation_screen:
     modal True  
@@ -355,6 +299,7 @@ screen evaluation_screen:
             yalign 0.9
             action Jump("ending_0")
 
+
 screen credits_lol:
     add "thanks-for-playing.png":
         xalign 0.5
@@ -373,9 +318,11 @@ screen credits_lol:
 #               action [SetVariable("LEX_DIFFICULTY", specialty), Jump("interview_loop")]
 #               text "Testify for the [unplayed_difficulty]"
 
+
 screen darken_background():
     # Dark transparent layer
     add Solid("#000000a3")  # Black with 50% opacity
+
 
 style selection_button:
     background "#68c5e1"  
@@ -383,10 +330,12 @@ style selection_button:
     insensitive_background "#2a2a2a"
     padding (40, 12)
 
+
 style selection_button_text:
     color "#050101"  
     hover_color "#ffffff"  
     insensitive_color "#8888887f" 
+
 
 screen achievement_banner(text):
     zorder 100
@@ -401,6 +350,7 @@ screen achievement_banner(text):
         text text size 30 color "#ffffff" xalign 0.5 yalign 0.5
 
     timer 3.0 action Hide("achievement_banner")
+
 
 transform slide_in:
     ypos 20

@@ -1,49 +1,51 @@
 [
     {
-        "specialty": "psychology",
+        "specialty": "anthropology",
         "evidence": [
             {
-                "name": "Jacob's Diary Entry",
+                "name": "Trauma Analysis",
                 "image": "evidence_bag",
-                "description": "One of Jacob's diary entries was recovered, in which he claims that he hates having to wake up every morning to go to school, and he wishes he could run away. Although there is no evidence that this is related to his death, the entry raises concerns about Jacob's feelings or fears of people around him.",
+                "description": "The observed trauma is consistent with impact from a focused blunt force instrument with a rounded striking surface. No weapon was recovered from the scene, but the characteristics of the injury indicate it was caused by a tool with a concentrated point of impact, such as a hammer, mallet, or a similarly shaped instrument.",
                 "truth_base": [
-                    "jacob hates waking up every morning to go to school",
-                    "he wishes he could run away",
-                    "the diary entry does not have enough evidence to determine what exactly jacob was afraid of due to how vague it is and the lack of context."
+                    "circular lesion reflects rounded striking surface",
+                    "likely a hammer-like shape (may not use that exact word, but must mention types of weapons that can inflict this injury)"
                 ]
             },
             {
-                "name": "Kiernan's Psychological Evaluation",
-                "image": "case_b_psychology_2",
-                "description": "Kiernan does not have any history of violence or violence-inducing disorders in his medical records. The only mental health diagnosis he has is ADHD.",
+                "name": "Fracture Analysis",
+                "image": "screwdriver",
+                "description": "Analysis of the fracture patterns on the skull suggests two impacts that occurred in close succession on the superior occipital bone, below the lambdoid suture. The fracture lines associated with the right-side impact dissipate into those from the left, indicating that the left-side impact likely occurred first. We cannot determine the exact time between these two impacts, only their relative sequence if they occurred around the same time.",
                 "truth_base": [
-                    "kiernan does not have a history of violence",
-                    "adhd diagnosis only, which does not normally encourage violence"
+                    "fracture patterns",
+                    "two impacts within close succession",
+                    "superior occipital bone, below the lambdoid suture",
+                    "left-side impact likely occurred first because fracture lines associated with the right-side impact dissipate into those from the left",
+                    "not possible to determine the exact time between these two impacts"
                 ]
             }
         ]
     },
     {
-        "specialty": "identification",
+        "specialty": "biology",
         "evidence": [
             {
-                "name": "Jacob's Shoe",
-                "image": "case_b_identification_1",
-                "description": "One of Jacob's shoes, a men's size 6 sneaker, was found at his school. This means Jacob was at school and likely got taken from there to the park either before or after death.",
+                "name": "DNA Analysis",
+                "image": "splatter",
+                "description": "DNA analysis on blood stains found on Ana's clothing and nearby surfaces confirmed that Ana's blood was the source of the bloodstains. This helps confirm that the injury occurred in the vicinity of where the blood was found. The analysis also ruled out the presence of any foreign blood from other individuals at the scene, supporting the conclusion that Ana was the primary victim of the attack.",
                 "truth_base": [
-                    "men's size 6 sneaker",
-                    "one was found at school, meaning jacob must have been at school at some point"
+                    "DNA analysis method",
+                    "Ana’s blood was the source of the bloodstains",
+                    "analysis ruled out the presence of any foreign DNA, meaning Ana was primary victim"
                 ]
             },
             {
-                "name": "3D Shoe Impression",
-                "image": "case_b_identification_2",
-                "description": "There were many footprints in the mud near the bank of the lake. One of the partial 3D impressions recovered seems to be Jacob's, but the others are unidentifiable.",
+                "name": "Microscopic Examination",
+                "image": "gin",
+                "description": "Microscopic examination of the crime scene revealed the presence of scalp tissue and hair fibers near the areas where blood spatter was found. These materials were likely dislodged during the blunt force trauma that Ana sustained. The tissue and hair fibers were transferred to surrounding surfaces, supporting the conclusion that the injury occurred in close proximity to where the biological materials were found.",
                 "truth_base": [
-                    "found in mud near the bank of the lake",
-                    "partial 3D impressions",
-                    "jacob's was the only shoe print that was identified",
-                    "the rest were also partials but unidentifiable"
+                    "microscopic examination revealing scalp tissue and hair fibers near the blood spatter",
+                    "biological materials were likely dislodged from Ana's head during the blunt force trauma",
+                    "The proximity of the biological materials to the blood spatter suggests that the injury happened in the same area"
                 ]
             }
         ]
