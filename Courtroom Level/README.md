@@ -17,6 +17,6 @@ NOTE: Make sure to add your evidence images inside the images/Inventory Items fo
 ### FAQ
 After completing these steps, your level should be complete! If you run into any issues or if you have any questions, please reach out to either Janna or Navya on Teams!
 
-1. I'm getting SyntaxError: unexpected EOF while parsing (<none>, line 2). What should I do?
+1. I'm getting SyntaxError: unexpected EOF while parsing (none, line 2). What should I do?
 
 This means that the Gemini API has reached its maximum quota. You'll either need to wait a little bit until it restores, or generate a new API key through [Google AI Studio](https://aistudio.google.com/prompts/new_chat?pli=1). If it's urgent and you've used all your API keys, please reach out to either Janna or Navya.
