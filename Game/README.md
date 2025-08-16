@@ -10,4 +10,4 @@ This folder consists of various levels that are currently in progress. 💻
 - This folder includes levels that were created by our 2024 Summer ROP Cohort!
 
 `Testimony_chatGPT`
-- This folder contains the testimony level that was completed by Navya. This level utilizes chatGPT to power interactive dialogues and courtroom questioning based on the various pieces of evidence that you have collected and analyzed. 
+- This folder contains the testimony level that was completed by Navya. This level utilizes chatGPT to power interactive dialogues and courtroom questioning based on the various pieces of evidence that you have collected and analyzed.
